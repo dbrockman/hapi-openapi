@@ -34,13 +34,16 @@ Test('validator special types', function (t) {
     const validator = Validators.create(api);
 
     t.test('valid date-time', async function (t) {
-        t.plan(1);
+        t.plan(2);
 
         const { validate } = validator.makeValidator(api.paths['/test'].get.parameters[0]);
 
         try {
-            await validate('1995-09-07T10:40:52Z');
-            t.pass('valid date-time');
+            const iso = '1995-09-07T10:40:52Z';
+            const expected = new Date(iso).getTime();
+            const v = await validate(iso);
+            t.assert(v instanceof Date, 'expected returned value to be a Date');
+            t.equal(v.getTime(), expected, 'expected returned date to have the same timestamp as the input');
         }
         catch (error) {
             t.fail(error.message);
