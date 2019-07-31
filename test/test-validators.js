@@ -1,7 +1,7 @@
 const Test = require('tape');
 const Validators = require('../lib/validators');
 
-Test('validator special types', function (t) {
+Test('validator special types', (t) => {
     const api = {
         swagger: '2.0',
         info: {
@@ -33,7 +33,7 @@ Test('validator special types', function (t) {
     
     const validator = Validators.create(api);
 
-    t.test('valid date-time', async function (t) {
+    t.test('valid date-time', async (t) => {
         t.plan(2);
 
         const { validate } = validator.makeValidator(api.paths['/test'].get.parameters[0]);
@@ -50,7 +50,7 @@ Test('validator special types', function (t) {
         }
     });
 
-    t.test('invalid date-time', async function (t) {
+    t.test('invalid date-time', async (t) => {
         t.plan(1);
 
         const { validate } = validator.makeValidator(api.paths['/test'].get.parameters[0]);
